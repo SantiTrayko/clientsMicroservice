@@ -1,7 +1,14 @@
 version: "3.8"
 services:
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    ports:
+      - 5432:5432
+    env_file:
+      - ./.env
+    restart: unless-stopped
   app:
-    stdin_open: true
     build:
       context: .
       dockerfile: Dockerfile
@@ -17,14 +24,7 @@ services:
     volumes:
       - ./src:/app/src
     restart: always
-  postgres:
-    image: postgres:13
-    ports:
-      - ${DB_PORT}:${DB_PORT}
-    volumes:
-      - ./docker-data/db:/var/lib/postgresql/data
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_DB_PASS}
-      POSTGRES_DB: ${POSTGRES_DB_NAME}
+    # environment:
+    #   POSTGRES_USER: postgres
+    #   POSTGRES_PASSWORD: ${POSTGRES_DB_PASS}
+    #   POSTGRES_DB: ${POSTGRES_DB_NAME}
