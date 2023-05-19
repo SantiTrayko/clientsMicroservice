@@ -1,19 +1,15 @@
+const listClientesController = require('../../controllers/listClientes.controller')
 
 module.exports = function () {
   let operations = {
-    GET
+    GET: listClientesController
   }
 
-  function GET(req, res, next) {
-    res.status(200).json([
-      { nombre: 'JOSE', apellido: 'OSCAR', edad: 20 }
-    ])
-  }
-
-  GET.apiDoc = {
+  operations.GET.apiDoc = {
     summary: "Permite obtener un listado de todos los clientes",
     operationId: "getAllClients",
     consumes: ["application/json"],
+    tags: ['Clientes'],
     parameters: [],
     responses: {
       200: {

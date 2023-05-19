@@ -10,7 +10,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 setupDocs({ app });
 
+
 app.listen(port, () => console.log(`PinApp listening on port ${port}`))
+
 // app.all('*', (req, res, next) => {
 //   const err = new MiddlewareError(
 //     `No se puede encontrar la ruta ${req.originalUrl} en el servidor!`,

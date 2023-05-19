@@ -9,11 +9,11 @@ module.exports = function setupDocs({ app }) {
     app,
     paths: path.resolve(__dirname, "../api/paths"),
     errorMiddleware: function (err, req, res, next) {
-      if(err.message){ 
-        res.status(400).json({ error: err.message })
-      }
       if(err.errors){ 
-        res.status(err.status).json(err.errors)
+        return res.status(err.status).json(err.errors)
+      }
+      if(err){ 
+        return res.status(400).json({ error: err.message })
       }
     }
   })

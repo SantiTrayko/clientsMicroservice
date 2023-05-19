@@ -1,29 +1,30 @@
 version: "3.8"
 services:
   app:
-    restart: on-failure
-    build: .
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pin_app_client_api
     depends_on:
       - postgres
     environment:
-      DATABASE_URL: postgres://postgres:${POSTGRES_DB_PASS}@postgres:5432/db
+      DATABASE_URL: ${DATABASE_URL}
       NODE_ENV: ${NODE_ENV}
       PORT: ${APP_PORT}
     ports:
       - "${APP_PORT}:${APP_PORT}"
-    command: npm run dev
     volumes:
-      - ./pinApp:/app
-      - /app/node_modules
+      - ./src:/app/src
+    restart: always
   postgres:
     image: postgres:13
     ports:
-      - 5434:5432
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - ./docker-data/db:/var/lib/postgresql/data
+    restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${POSTGRES_DB_PASS}
       POSTGRES_DB: ${POSTGRES_DB_NAME}
-    networks:
-      - pinAppChallenge
-networks:
-  pinAppChallenge:

@@ -1,10 +1,29 @@
-const { inspect } = require('util')
+const { DateTime } = require('luxon');
 
-module.exports = function crearClienteController(req, res, next) {
+const prismaClient = require('../prisma/prismaClient');
+
+module.exports = async function crearClienteController(req, res, next) {
   try {
-    return res.status(200).json({ nombre: 'JOSE', apellido: 'OSCAR', edad: 20, fechaDeNacimiento: '1957-05-10' });
+    const { body } = req;
+
+    const esperanzaVida = 73;
+    const fechaNacimiento = DateTime.fromFormat(body.fechaDeNacimiento, 'yyyy-MM-dd');    
+    const fechaFallecimiento = fechaNacimiento.plus({ years: esperanzaVida });
+    
+    const client = { 
+      ...body,
+      fechaDeNacimiento: fechaNacimiento.toFormat('yyyy-MM-dd'),
+      fechaProbableDeMuerte: fechaFallecimiento.toFormat('yyyy-MM-dd'),
+     }
+    
+    const { id, fechaProbableDeMuerte, ...newClient } = await prismaClient.cliente.create({ 
+      data: client
+    })
+
+    return res.status(200).json(newClient);
   } catch (error) {
-    console.log(inspect(error))
     return next(error) 
+  } finally {
+    await prismaClient.$disconnect();
   }
 }

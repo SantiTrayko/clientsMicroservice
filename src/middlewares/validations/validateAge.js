@@ -1,14 +1,26 @@
-const { DateTime } = require('luxon');
+const { DateTime } = require("luxon");
 
 module.exports = (req, res, next) => {
   const { edad, fechaDeNacimiento } = req.body;
 
   const fechaActual = DateTime.now();
-  const fechaNacimiento = DateTime.fromFormat(fechaDeNacimiento, 'yyyy-MM-dd');
-  const edadCalculada = Math.floor(fechaActual.diff(fechaNacimiento, 'years').years);
-  
+  const fechaNacimiento = DateTime.fromFormat(fechaDeNacimiento, "yyyy-MM-dd");
+  const edadCalculada = Math.floor(
+    fechaActual.diff(fechaNacimiento, "years").years
+  );
+
   if (edad !== edadCalculada) {
-    return next({ status: 400, errors: [ { message: 'La edad no coincide con la fecha de nacimiento' } ] });
+    return next({
+      status: 400,
+      errors: [
+        {
+          message: "La edad no coincide con la fecha de nacimiento",
+          path: null,
+          errorCode: null,
+          location: null,
+        },
+      ],
+    });
   }
 
   next();

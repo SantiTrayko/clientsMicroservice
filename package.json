@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/app.js",
-    "start": "node src/app.js",
+    "start": "node main",
+    "start:migrate:prod": "prisma migrate deploy && npm run start:prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^4.9.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-openapi": "^12.1.0",
@@ -18,6 +20,7 @@
     "swagger-ui-express": "^4.6.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "prisma": "^4.9.0"
   }
 }

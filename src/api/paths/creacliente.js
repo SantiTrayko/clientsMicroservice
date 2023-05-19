@@ -10,6 +10,7 @@ module.exports = function () {
     summary: "Crear nuevo cliente",
     operationId: "createCliente",
     consumes: ["application/json"],
+    tags: ['Clientes'],
     parameters: [
       {
         in: "body",
@@ -25,6 +26,13 @@ module.exports = function () {
         schema: {
           type: "object",
           $ref: '#/definitions/Cliente'
+        }
+      },
+      400: {
+        description: "Error en la consulta",
+        schema: {
+          type: "array",
+          $ref: "#/definitions/BadRequest"
         }
       }
     }
