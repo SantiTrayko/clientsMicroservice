@@ -8,6 +8,9 @@ services:
     env_file:
       - ./.env
     restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   app:
     build:
       context: .
@@ -24,7 +27,5 @@ services:
     volumes:
       - ./src:/app/src
     restart: always
-    # environment:
-    #   POSTGRES_USER: postgres
-    #   POSTGRES_PASSWORD: ${POSTGRES_DB_PASS}
-    #   POSTGRES_DB: ${POSTGRES_DB_NAME}
+volumes:
+  postgres_data:

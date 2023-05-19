@@ -32,7 +32,7 @@ const apiDoc = {
         nombre: "Jorge",
         apellido: "Gutiérrez",
         edad: 60,
-        fechaDeNacimiento: "1957-05-10",
+        fechaDeNacimiento: "1963-05-10",
       },
     },
     BadRequest: {
